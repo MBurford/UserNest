@@ -6,6 +6,21 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		4CE2706818B3FA2400D0EE73 /* Framework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 4CE2706918B3FA2400D0EE73 /* Build configuration list for PBXAggregateTarget "Framework" */;
+			buildPhases = (
+				4CE2706E18B3FA4500D0EE73 /* ShellScript */,
+			);
+			dependencies = (
+				4CE2706D18B3FA2F00D0EE73 /* PBXTargetDependency */,
+			);
+			name = Framework;
+			productName = Framework;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		4C254E2718B3C66500999DDF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C254E2618B3C66500999DDF /* Foundation.framework */; };
 		4C254E2C18B3C66500999DDF /* UserNest.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C254E2B18B3C66500999DDF /* UserNest.h */; };
@@ -16,10 +31,29 @@
 		4C254E3B18B3C66500999DDF /* libUserNest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C254E2318B3C66500999DDF /* libUserNest.a */; };
 		4C254E4118B3C66500999DDF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4C254E3F18B3C66500999DDF /* InfoPlist.strings */; };
 		4C254E4318B3C66500999DDF /* UserNestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C254E4218B3C66500999DDF /* UserNestTests.m */; };
+		4C254E5218B3C76200999DDF /* BlurBehindTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C254E5118B3C76200999DDF /* BlurBehindTransition.m */; };
+		4C27CB7A18BD5653007F44C6 /* UserNestTOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C27CB7818BD5653007F44C6 /* UserNestTOS.h */; };
+		4C27CB7B18BD5653007F44C6 /* UserNestTOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C27CB7918BD5653007F44C6 /* UserNestTOS.m */; };
+		4C3FAEE118BFFD1A00F69062 /* UserNestNewAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C3FAEDE18BFFD1A00F69062 /* UserNestNewAccount.h */; };
+		4C3FAEE218BFFD1A00F69062 /* UserNestNewAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3FAEDF18BFFD1A00F69062 /* UserNestNewAccount.m */; };
+		4C81413718CFCB9A00306FF3 /* UserNestBits.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C81413518CFCB9A00306FF3 /* UserNestBits.h */; };
+		4C81413818CFCB9A00306FF3 /* UserNestBits.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C81413618CFCB9A00306FF3 /* UserNestBits.m */; };
+		4CE2706618B3F8D400D0EE73 /* UserNest.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C254E2B18B3C66500999DDF /* UserNest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4CE270BB18B400AC00D0EE73 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE270BA18B400AC00D0EE73 /* Accelerate.framework */; };
+		4CE9931B18BE5F820091240A /* UserNestNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9931918BE5F820091240A /* UserNestNetwork.h */; };
+		4CE9931C18BE5F820091240A /* UserNestNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9931A18BE5F820091240A /* UserNestNetwork.m */; };
+		4CE9931E18BE62050091240A /* UserNest_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9931D18BE62050091240A /* UserNest_private.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		4C254E3918B3C66500999DDF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C254E1B18B3C66500999DDF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C254E2218B3C66500999DDF;
+			remoteInfo = UserNest;
+		};
+		4CE2706C18B3FA2F00D0EE73 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4C254E1B18B3C66500999DDF /* Project object */;
 			proxyType = 1;
@@ -53,6 +87,20 @@
 		4C254E3E18B3C66500999DDF /* UserNestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UserNestTests-Info.plist"; sourceTree = "<group>"; };
 		4C254E4018B3C66500999DDF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4C254E4218B3C66500999DDF /* UserNestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserNestTests.m; sourceTree = "<group>"; };
+		4C254E5018B3C76200999DDF /* BlurBehindTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlurBehindTransition.h; sourceTree = "<group>"; };
+		4C254E5118B3C76200999DDF /* BlurBehindTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlurBehindTransition.m; sourceTree = "<group>"; };
+		4C27CB7818BD5653007F44C6 /* UserNestTOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNestTOS.h; sourceTree = "<group>"; };
+		4C27CB7918BD5653007F44C6 /* UserNestTOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNestTOS.m; sourceTree = "<group>"; };
+		4C3FAEDE18BFFD1A00F69062 /* UserNestNewAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNestNewAccount.h; sourceTree = "<group>"; };
+		4C3FAEDF18BFFD1A00F69062 /* UserNestNewAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNestNewAccount.m; sourceTree = "<group>"; };
+		4C3FAEE018BFFD1A00F69062 /* UserNestNewAccount.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserNestNewAccount.xib; sourceTree = "<group>"; };
+		4C81413518CFCB9A00306FF3 /* UserNestBits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNestBits.h; sourceTree = "<group>"; };
+		4C81413618CFCB9A00306FF3 /* UserNestBits.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNestBits.m; sourceTree = "<group>"; };
+		4CE270B718B3FF2100D0EE73 /* UserNestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserNestViewController.xib; sourceTree = "<group>"; };
+		4CE270BA18B400AC00D0EE73 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		4CE9931918BE5F820091240A /* UserNestNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNestNetwork.h; sourceTree = "<group>"; };
+		4CE9931A18BE5F820091240A /* UserNestNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNestNetwork.m; sourceTree = "<group>"; };
+		4CE9931D18BE62050091240A /* UserNest_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNest_private.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +109,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C254E2718B3C66500999DDF /* Foundation.framework in Frameworks */,
+				4CE270BB18B400AC00D0EE73 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +149,7 @@
 		4C254E2518B3C66500999DDF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4CE270BA18B400AC00D0EE73 /* Accelerate.framework */,
 				4C254E2618B3C66500999DDF /* Foundation.framework */,
 				4C254E3418B3C66500999DDF /* XCTest.framework */,
 				4C254E3718B3C66500999DDF /* UIKit.framework */,
@@ -110,8 +160,17 @@
 		4C254E2818B3C66500999DDF /* UserNest */ = {
 			isa = PBXGroup;
 			children = (
+				4C254E4C18B3C6FD00999DDF /* Bits */,
 				4C254E2B18B3C66500999DDF /* UserNest.h */,
+				4CE9931D18BE62050091240A /* UserNest_private.h */,
 				4C254E2D18B3C66500999DDF /* UserNest.m */,
+				4CE9931918BE5F820091240A /* UserNestNetwork.h */,
+				4CE9931A18BE5F820091240A /* UserNestNetwork.m */,
+				4C3FAEDE18BFFD1A00F69062 /* UserNestNewAccount.h */,
+				4C3FAEDF18BFFD1A00F69062 /* UserNestNewAccount.m */,
+				4C3FAEE018BFFD1A00F69062 /* UserNestNewAccount.xib */,
+				4C27CB7818BD5653007F44C6 /* UserNestTOS.h */,
+				4C27CB7918BD5653007F44C6 /* UserNestTOS.m */,
 				4C254E2918B3C66500999DDF /* Supporting Files */,
 			);
 			path = UserNest;
@@ -143,7 +202,35 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		4C254E4C18B3C6FD00999DDF /* Bits */ = {
+			isa = PBXGroup;
+			children = (
+				4C254E5018B3C76200999DDF /* BlurBehindTransition.h */,
+				4C254E5118B3C76200999DDF /* BlurBehindTransition.m */,
+				4CE270B718B3FF2100D0EE73 /* UserNestViewController.xib */,
+				4C81413518CFCB9A00306FF3 /* UserNestBits.h */,
+				4C81413618CFCB9A00306FF3 /* UserNestBits.m */,
+			);
+			name = Bits;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		4CE2706518B3F8B700D0EE73 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C27CB7A18BD5653007F44C6 /* UserNestTOS.h in Headers */,
+				4C3FAEE118BFFD1A00F69062 /* UserNestNewAccount.h in Headers */,
+				4CE2706618B3F8D400D0EE73 /* UserNest.h in Headers */,
+				4CE9931B18BE5F820091240A /* UserNestNetwork.h in Headers */,
+				4CE9931E18BE62050091240A /* UserNest_private.h in Headers */,
+				4C81413718CFCB9A00306FF3 /* UserNestBits.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		4C254E2218B3C66500999DDF /* UserNest */ = {
@@ -153,6 +240,8 @@
 				4C254E1F18B3C66500999DDF /* Sources */,
 				4C254E2018B3C66500999DDF /* Frameworks */,
 				4C254E2118B3C66500999DDF /* CopyFiles */,
+				4CE2706518B3F8B700D0EE73 /* Headers */,
+				4CE2706718B3F9BB00D0EE73 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -204,6 +293,7 @@
 			targets = (
 				4C254E2218B3C66500999DDF /* UserNest */,
 				4C254E3218B3C66500999DDF /* UserNestTests */,
+				4CE2706818B3FA2400D0EE73 /* Framework */,
 			);
 		};
 /* End PBXProject section */
@@ -219,12 +309,46 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4CE2706718B3F9BB00D0EE73 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nmkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"\n\n# Link the \"Current\" version to \"A\"\n/bin/ln -sfh A \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/Current\"\n/bin/ln -sfh Versions/Current/Headers \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Headers\"\n/bin/ln -sfh \"Versions/Current/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/${PRODUCT_NAME}\"\n\n# The -a ensures that the headers maintain the source modification date so that we don't constantly\n# cause propagating rebuilds of files that import these headers.\n/bin/cp -a \"${TARGET_BUILD_DIR}/${PUBLIC_HEADERS_FOLDER_PATH}/\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"\n";
+		};
+		4CE2706E18B3FA4500D0EE73 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\nset +u\n# Avoid recursively calling this script.\nif [[ $SF_MASTER_SCRIPT_RUNNING ]]\nthen\nexit 0\nfi\nset -u\nexport SF_MASTER_SCRIPT_RUNNING=1\n\nSF_TARGET_NAME=${PROJECT_NAME}\nSF_EXECUTABLE_PATH=\"lib${SF_TARGET_NAME}.a\"\nSF_WRAPPER_NAME=\"${SF_TARGET_NAME}.framework\"\n\n# The following conditionals come from\n# https://github.com/kstenerud/iOS-Universal-Framework\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\nSF_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\nSF_SDK_VERSION=${BASH_REMATCH[1]}\nelse\necho \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SF_SDK_PLATFORM\" = \"iphoneos\" ]]\nthen\nSF_OTHER_PLATFORM=iphonesimulator\nelse\nSF_OTHER_PLATFORM=iphoneos\nfi\n\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$SF_SDK_PLATFORM$ ]]\nthen\nSF_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${SF_OTHER_PLATFORM}\"\nelse\necho \"Could not find platform name from build products directory: $BUILT_PRODUCTS_DIR\"\nexit 1\nfi\n\n# Build the other platform.\nxcrun xcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${SF_OTHER_PLATFORM}${SF_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\" $ACTION\n\n# Smash the two static libraries into one fat binary and store it in the .framework\nxcrun lipo -create \"${BUILT_PRODUCTS_DIR}/${SF_EXECUTABLE_PATH}\" \"${SF_OTHER_BUILT_PRODUCTS_DIR}/${SF_EXECUTABLE_PATH}\" -output \"${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/Versions/A/${SF_TARGET_NAME}\"\n\n# Copy the binary to the other architecture folder to have a complete framework in both.\ncp -a \"${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/Versions/A/${SF_TARGET_NAME}\" \"${SF_OTHER_BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/Versions/A/${SF_TARGET_NAME}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4C254E1F18B3C66500999DDF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C81413818CFCB9A00306FF3 /* UserNestBits.m in Sources */,
 				4C254E2E18B3C66500999DDF /* UserNest.m in Sources */,
+				4C3FAEE218BFFD1A00F69062 /* UserNestNewAccount.m in Sources */,
+				4C27CB7B18BD5653007F44C6 /* UserNestTOS.m in Sources */,
+				4C254E5218B3C76200999DDF /* BlurBehindTransition.m in Sources */,
+				4CE9931C18BE5F820091240A /* UserNestNetwork.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,6 +367,11 @@
 			isa = PBXTargetDependency;
 			target = 4C254E2218B3C66500999DDF /* UserNest */;
 			targetProxy = 4C254E3918B3C66500999DDF /* PBXContainerItemProxy */;
+		};
+		4CE2706D18B3FA2F00D0EE73 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C254E2218B3C66500999DDF /* UserNest */;
+			targetProxy = 4CE2706C18B3FA2F00D0EE73 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -331,24 +460,36 @@
 		4C254E4718B3C66500999DDF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
 				DSTROOT = /tmp/UserNest.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UserNest/UserNest-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)Headers";
 				SKIP_INSTALL = YES;
+				STRIP_STYLE = "non-global";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		4C254E4818B3C66500999DDF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
 				DSTROOT = /tmp/UserNest.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UserNest/UserNest-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)Headers";
 				SKIP_INSTALL = YES;
+				STRIP_STYLE = "non-global";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -390,6 +531,20 @@
 			};
 			name = Release;
 		};
+		4CE2706A18B3FA2400D0EE73 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		4CE2706B18B3FA2400D0EE73 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -409,6 +564,7 @@
 				4C254E4818B3C66500999DDF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4C254E4918B3C66500999DDF /* Build configuration list for PBXNativeTarget "UserNestTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +573,16 @@
 				4C254E4B18B3C66500999DDF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4CE2706918B3FA2400D0EE73 /* Build configuration list for PBXAggregateTarget "Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CE2706A18B3FA2400D0EE73 /* Debug */,
+				4CE2706B18B3FA2400D0EE73 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
