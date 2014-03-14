@@ -6,7 +6,6 @@
 //
 
 #import "UserNestViewController.h"
-#import "UserNestViewController_private.h"
 #import "UserNestNetwork.h"
 #import "BlurBehindTransition.h"
 #import "UserNestTOSViewController.h"

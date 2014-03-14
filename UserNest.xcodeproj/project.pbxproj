@@ -43,7 +43,6 @@
 		4CE270BB18B400AC00D0EE73 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE270BA18B400AC00D0EE73 /* Accelerate.framework */; };
 		4CE9931B18BE5F820091240A /* UserNestNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9931918BE5F820091240A /* UserNestNetwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4CE9931C18BE5F820091240A /* UserNestNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9931A18BE5F820091240A /* UserNestNetwork.m */; };
-		4CE9931E18BE62050091240A /* UserNestViewController_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9931D18BE62050091240A /* UserNestViewController_private.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,7 +101,6 @@
 		4CE270BA18B400AC00D0EE73 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		4CE9931918BE5F820091240A /* UserNestNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNestNetwork.h; sourceTree = "<group>"; };
 		4CE9931A18BE5F820091240A /* UserNestNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNestNetwork.m; sourceTree = "<group>"; };
-		4CE9931D18BE62050091240A /* UserNestViewController_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNestViewController_private.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,7 +163,6 @@
 				4C254E4C18B3C6FD00999DDF /* Bits */,
 				4C16A88D18D37D7700529433 /* UserNest.h */,
 				4C254E2B18B3C66500999DDF /* UserNestViewController.h */,
-				4CE9931D18BE62050091240A /* UserNestViewController_private.h */,
 				4C254E2D18B3C66500999DDF /* UserNestViewController.m */,
 				4CE9931918BE5F820091240A /* UserNestNetwork.h */,
 				4CE9931A18BE5F820091240A /* UserNestNetwork.m */,
@@ -229,7 +226,6 @@
 				4C3FAEE118BFFD1A00F69062 /* UserNestNewAccountViewController.h in Headers */,
 				4CE2706618B3F8D400D0EE73 /* UserNestViewController.h in Headers */,
 				4CE9931B18BE5F820091240A /* UserNestNetwork.h in Headers */,
-				4CE9931E18BE62050091240A /* UserNestViewController_private.h in Headers */,
 				4C81413718CFCB9A00306FF3 /* UserNestBits.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
