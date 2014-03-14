@@ -2,7 +2,6 @@
 //  UserNestTOS.m
 //  UserNest
 //
-//  Created by Michael Burford on 2/25/14.
 //  Copyright (c) 2014 Headlight Software, Inc. All rights reserved.
 //
 

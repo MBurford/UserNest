@@ -2,7 +2,6 @@
 //  UserNestNewAccount.h
 //  UserNest
 //
-//  Created by Michael Burford on 2/27/14.
 //  Copyright (c) 2014 Headlight Software, Inc. All rights reserved.
 //
 
