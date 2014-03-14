@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UserNestTOS.h"
+#import "UserNestTOSViewController.h"
 
 @interface UNAccountItem : NSObject
 
@@ -25,7 +25,7 @@
 @end
 
 
-@interface UserNestNewAccount : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UserNestTOSDelegate> {
+@interface UserNestNewAccountViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UserNestTOSDelegate> {
 	NSMutableArray		*allSections;
 }
 
@@ -40,7 +40,5 @@
 
 - (void)newAccountSuccess;
 - (void)newAccountFailed;
-
-- (void)createAccount:(NSDictionary*)acctData;
 
 @end

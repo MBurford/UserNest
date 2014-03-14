@@ -6,13 +6,14 @@
 //  Copyright (c) 2014 Headlight Software, Inc. All rights reserved.
 //
 
-#import "UserNestNewAccount.h"
-#import "UserNestTOS.h"
+#import "UserNestNewAccountViewController.h"
+#import "UserNestTOSViewController.h"
 #import "UserNestNetwork.h"
 #import "UserNestBits.h"
 
 #define GRAYCOLOR 0.96
 
+//Helper item, for table row content objects
 @implementation UNAccountItem
 
 + (id)textNamed:(NSString*)desc placeholder:(NSString*)def optional:(Boolean)optional keyboardType:(UIKeyboardType)keyboardType nameEntry:(Boolean)nameEntry {
@@ -74,7 +75,7 @@
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-@implementation UserNestNewAccount {
+@implementation UserNestNewAccountViewController {
 	//Private local vars...
     UserNestNetwork *unNetwork;
 }
@@ -87,13 +88,10 @@
     }
     return self;
 }
-
-//TEST CASES--------------------------------------------------
-- (void)createAccount:(NSDictionary*)acctData {
-	if (!unNetwork) {
-		unNetwork = [[UserNestNetwork alloc] initWithUserNestNewAccount:self];
-	}	
-	[unNetwork createAccount:acctData];
+- (void)dealloc {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super dealloc];
 }
 
 - (void)viewDidLoad {
@@ -102,8 +100,13 @@
     if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
         self.view.frame = self.navigationController.view.bounds;
         self.tableView.frame = self.view.bounds;
+
+        //Nicer rounded corners on the overlay
+        [self.view superview].layer.cornerRadius = 10.0f;
+        [self.view superview].layer.masksToBounds = YES;
         
-        //self.navigationController.view.layer.cornerRadius = 8;
+        [self.navigationController.view superview].layer.cornerRadius = 10.0f;
+        [self.navigationController.view superview].layer.masksToBounds = YES;
     }
     
     self.navigationItem.title = NSLocalizedString(@"New Account", nil);
@@ -124,16 +127,24 @@
 	}
 	
 	NSMutableArray	*section = [allSections lastObject];
-	item.textField.delegate = self;
-    [item.switchField addTarget:self action:@selector(changeSwitch:) forControlEvents:UIControlEventValueChanged];
 	
 	if ([section count]>0 && item.textField) {
 		UNAccountItem	*lastItem = [section lastObject];
 		lastItem.textField.returnKeyType = UIReturnKeyNext;
 	}
 	
-	item.textField.returnKeyType = UIReturnKeyDone;
+    if (item.textField) {
+        item.textField.returnKeyType = UIReturnKeyDone;
+        item.textField.delegate = self;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:item.textField];
+    }
+    if (item.switchField) {
+        [item.switchField addTarget:self action:@selector(changeSwitch:) forControlEvents:UIControlEventValueChanged];
+    }
 	[section addObject:item];
+}
+- (void)textFieldDidChange:(NSNotification *)notification {
+    [self checkIfTheyreDone];
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textFieldIn {
 	if (textFieldIn.returnKeyType==UIReturnKeyDone) {
@@ -179,8 +190,10 @@
         }
     }
     
-    if (theyAreDone && !self.navigationItem.rightBarButtonItem) {
-        [self.navigationItem setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(clickDone:)] autorelease] animated:YES];
+    if (theyAreDone) {
+        if (!self.navigationItem.rightBarButtonItem) {
+            [self.navigationItem setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(clickDone:)] autorelease] animated:YES];
+        }
     } else {
         [self.navigationItem setRightBarButtonItem:nil animated:YES];
     }
@@ -200,8 +213,8 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)clickDone:(id)sender {
-	if (!unNetwork) {
-		unNetwork = [[UserNestNetwork alloc] initWithUserNestNewAccount:self];
+    if (!unNetwork) {
+		unNetwork = [[UserNestNetwork alloc] initWithUserNestAppID:self.userNestAppID session:self.userNestSession];
 	}
 	//Get fields into a Dictionary
 	NSMutableDictionary	*newAccountData = [NSMutableDictionary new];
@@ -225,34 +238,30 @@
 	[working startAnimating];
 	[self.navigationItem setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithCustomView:working] autorelease] animated:YES];
 	
-	[unNetwork createAccount:newAccountData];
+	[unNetwork createAccount:newAccountData completionHandler:^(NSDictionary *data) {
+        if (data) {
+            [self newAccountSuccess:data];
+        } else {
+            [self newAccountFailed];
+        }
+    }];
 }
-- (void)newAccountSuccess {
-    if ([self.delegate respondsToSelector:@selector(newAccountSuccess)]) {
-        //Bubble up for test cases...
-        [self.delegate performSelector:@selector(newAccountSuccess)];
-    } else {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+- (void)newAccountSuccess:(NSDictionary*)data {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)newAccountFailed {
-    if ([self.delegate respondsToSelector:@selector(newAccountFailed)]) {
-        //Bubble up for test cases...
-        [self.delegate performSelector:@selector(newAccountFailed)];
-    } else {
-        //Re-enable fields so they can fix things
-        NSMutableArray	*section = [allSections lastObject];
-        for (UNAccountItem *item in section) {
-            if (item.textField) {
-                item.textField.enabled = YES;
-            } else if (item.switchField) {
-                item.switchField.enabled = YES;
-            }
+    //Re-enable fields so they can fix things
+    NSMutableArray	*section = [allSections lastObject];
+    for (UNAccountItem *item in section) {
+        if (item.textField) {
+            item.textField.enabled = YES;
+        } else if (item.switchField) {
+            item.switchField.enabled = YES;
         }
-        
-        [self.navigationItem setRightBarButtonItem:nil animated:NO];
-        [self checkIfTheyreDone];
     }
+    
+    [self.navigationItem setRightBarButtonItem:nil animated:NO];
+    [self checkIfTheyreDone];
 }
 
 // Table View ----------------------------------------------------------------------
@@ -319,7 +328,7 @@
 
 	UNAccountItem	*unItem = (UNAccountItem*)[(NSMutableArray*)[allSections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     if (unItem.switchField) {
-        UserNestTOS     *showTOS = [[UserNestTOS alloc] init];
+        UserNestTOSViewController     *showTOS = [[UserNestTOSViewController alloc] init];
         showTOS.userNestAppID = self.userNestAppID;
 		showTOS.delegate = self;
         [self.navigationController pushViewController:showTOS animated:YES];

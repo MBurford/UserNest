@@ -1,8 +1,7 @@
 #import <UIKit/UIKit.h>
 
-extern Boolean userNestTestCase;
 
-@interface UserNest (UNPrivate)
+@interface UserNestViewController (UNPrivate)
 
 - (void)transformToNormal:(float)duration;
 
@@ -15,10 +14,10 @@ extern Boolean userNestTestCase;
 - (void)passwordResetFail;
 
 //FOR TESTING
-- (void)loginWithUser:(NSString*)user password:(NSString*)pass;
+/*- (void)loginWithUser:(NSString*)user password:(NSString*)pass;
 - (void)resetPasswordWithEmail:(NSString*)email;
 - (void)setUserNestTestCase;
 - (void)getAccountPolicy;
-- (void)createAccount:(NSDictionary*)acctData;
+- (void)createAccount:(NSDictionary*)acctData;*/
 
 @end

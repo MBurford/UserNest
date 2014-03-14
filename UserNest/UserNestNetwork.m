@@ -2,45 +2,36 @@
 //  UserNestNetwork.m
 //  UserNest
 //
-//  Created by Michael Burford on 2/26/14.
-//  Copyright (c) 2014 Headlight Software, Inc. All rights reserved.
+//  Copyright (c) 2014 UserNest. All rights reserved.
 //
 
-#import "UserNest.h"
-#import "UserNest_private.h"
-#import "UserNestNewAccount.h"
 #import "UserNestNetwork.h"
 #import "UserNestBits.h"
 
 @implementation UserNestNetwork {
+	NSString	*userNestAppID;
+	NSString	*userNestSession;
     NSString    *loginUser;
     NSString    *loginPass;
 
     NSString    *resetEmail;
 
 	NSDictionary	*newAccountData;
-
-    UserNest    *mainUserNest;
-    UserNestNewAccount    *mainUserNestNewAccount;
 }
 
 /////////////////////////////////////////////////////////////////////////
-- (id)initWithUserNestMain:(UserNest*)userNest {
+
+- (id)initWithUserNestAppID:(NSString*)appID session:(NSString*)existingSession {
     self = [super init];
     if (self) {
-        mainUserNest = [userNest retain];
-    }
-    return self;
-}
-- (id)initWithUserNestNewAccount:(UserNestNewAccount*)userNestNewAccount {
-    self = [super init];
-    if (self) {
-        mainUserNestNewAccount = [userNestNewAccount retain];
+        userNestAppID = [appID retain];
+		userNestSession = [existingSession retain];
+        self.showErrorMessages = YES;
     }
     return self;
 }
 
-//Used a lot of places, so one convert that shows errors---------------------
+//Used a lot of places, so one convert that shows errors if needed---------------------
 - (NSDictionary*)jsonToDictionary:(NSData*)data errorAlerts:(Boolean)errorAlerts {
     //Couldn't get anything--don't bother trying to convert and show an appropriate message
     if (!data) {
@@ -61,7 +52,7 @@
     if (jsonError || !JSON) {
 		if (errorAlerts) {
 			UIAlertView		*errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
-																  message:NSLocalizedString(@"Unable to process reply, check your Internet connection", nil)
+																  message:NSLocalizedString(@"Unable to process reply", nil)
 																 delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 			[errorAlert show];
 		}
@@ -84,11 +75,11 @@
 
 /////////////////////////////////////////////////////////////////////////
 //Logout is an easy case
-- (void)logoutThen:(void (^)(Boolean invalidatedServer))completionHandler {
-    if (mainUserNest.userNestSession) {
+- (void)logoutCompletionHandler:(void (^)(Boolean invalidatedServer))completionHandler {
+    if (userNestSession) {
         //First get the Session.
         NSURL                   *URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://secure.umsdb.net/api/v1/frontend/auth/logout?appId=%@&sessionId=%@",
-                                                             mainUserNest.userNestAppID, mainUserNest.userNestSession]];
+                                                             userNestAppID, userNestSession]];
         NSMutableURLRequest     *request = [NSMutableURLRequest requestWithURL:URL];
         
         [request setHTTPMethod:@"POST"];
@@ -98,19 +89,15 @@
                                                                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                                          //Can show UI things, so fire on the main thread...
                                                                          dispatch_async(dispatch_get_main_queue(), ^{
-                                                                             [self handleLogout:data error:error then:completionHandler];
-
+                                                                             [self handleLogout:data error:error completionHandler:completionHandler];
                                                                          });
                                                                      }];
         [task resume];
     }
 }
-- (void)handleLogout:(NSData*)data error:(NSError*)error then:(void (^)(Boolean invalidatedServer))completionHandler {
-    //ANY RESPONSE counts to invalidate client.
-    [UserNestKeychain setString:@"" forKey:@"sessionID"];
-    mainUserNest.userNestSession = nil;
-
-    //Would be weird, but can't invalidate the session on the server without
+- (void)handleLogout:(NSData*)data error:(NSError*)error completionHandler:(void (^)(Boolean invalidatedServer))completionHandler {
+    //Would be weird, but can't invalidate the session on the server;
+    //Always delete the local session, even if invalidating failed
 	NSDictionary	*JSON = [self jsonToDictionary:data errorAlerts:NO];
     if (JSON) {
         if (completionHandler) {
@@ -124,9 +111,11 @@
     }
 }
 
-- (void)checkLoggedInThen:(void (^)(Boolean loggedIn))completionHandler {
+/////////////////////////////////////////////////////////////////////////
+//See if the current userNestSession is valid & logged in.
+- (void)checkLoggedInCompletionHandler:(void (^)(Boolean loggedIn))completionHandler {
 	NSURL                   *URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://secure.umsdb.net/api/v1/frontend/auth/session/%@?appId=%@",
-														 mainUserNest.userNestSession, mainUserNest.userNestAppID]];
+														 userNestSession, userNestAppID]];
 
     NSMutableURLRequest     *request = [NSMutableURLRequest requestWithURL:URL];
 	
@@ -134,12 +123,12 @@
                                                                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                                      //Can show UI things, so fire on the main thread...
                                                                      dispatch_async(dispatch_get_main_queue(), ^{
-																		 [self handleCheckLoggedIn:data error:error then:completionHandler];
+																		 [self handleCheckLoggedIn:data error:error completionHandler:completionHandler];
 																	 });
                                                                  }];
     [test resume];
 }
-- (void)handleCheckLoggedIn:(NSData*)data error:(NSError*)error then:(void (^)(Boolean loggedIn))completionHandler {
+- (void)handleCheckLoggedIn:(NSData*)data error:(NSError*)error completionHandler:(void (^)(Boolean loggedIn))completionHandler {
 	NSDictionary	*JSON = [self jsonToDictionary:data errorAlerts:NO];
     if (JSON) {
 		//userID having a value means they're logged in.
@@ -148,43 +137,12 @@
 			return;
 		}
 	}
-    //NOT logged in, clear session things
-    [UserNestKeychain setString:@"" forKey:@"sessionID"];
-    mainUserNest.userNestSession = nil;
-    
 	completionHandler(NO);
 }
 
-
 //////////////////////////////////////////////////////////////////////
-- (void)getAccountPolicy {
-	NSURL                   *URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://secure.umsdb.net/api/v1/frontend/auth/policy?appId=%@",
-														 mainUserNest.userNestAppID]];
-    NSMutableURLRequest     *request = [NSMutableURLRequest requestWithURL:URL];
-	
-	NSURLSessionDataTask *test = [[NSURLSession sharedSession] dataTaskWithRequest:request
-                                                                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                                     //Can show UI things, so fire on the main thread...
-                                                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                                                         [self handleGotNewUserPolicy:data error:error];
-                                                                     });
-                                                                 }];
-    [test resume];
-	
-}
-- (void)handleGotNewUserPolicy:(NSData*)data error:(NSError*)error {
-    NSDictionary	*JSON = [self jsonToDictionary:data errorAlerts:YES];
-    if (JSON) {
-        [mainUserNest gotAccountPolicy:JSON];
-        return;
-    }
-    if (userNestTestCase) {
-        [mainUserNest gotAccountPolicy:nil];
-    }
-}
-
-//////////////////////////////////////////////////////////////////////
-- (void)getSessionForApp:(NSString*)appID then:(void (^)(NSData *data, NSError *error))completionHandler {
+//Used by several of them, to get a session for the next step
+- (void)getSessionForApp:(NSString*)appID completionHandler:(void (^)(NSData *data, NSError *error))completionHandler {
 	//Get the session
     NSURL                   *URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://secure.umsdb.net/api/v1/frontend/auth/session?appId=%@",
                                                          appID]];
@@ -203,34 +161,62 @@
     [task resume];
 }
 
+
 //////////////////////////////////////////////////////////////////////
-- (void)loginWithUser:(NSString*)user password:(NSString*)pass {
+//Account Policy, mainly for creating new accounts, but also can tell if they use Usernames to login instead of emails.
+- (void)getAccountPolicyCompletionHandler:(void (^)(NSDictionary *policy))completionHandler {
+	NSURL                   *URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://secure.umsdb.net/api/v1/frontend/auth/policy?appId=%@",
+														 userNestAppID]];
+    NSMutableURLRequest     *request = [NSMutableURLRequest requestWithURL:URL];
+	
+	NSURLSessionDataTask *test = [[NSURLSession sharedSession] dataTaskWithRequest:request
+                                                                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                                     //Can show UI things, so fire on the main thread...
+                                                                     dispatch_async(dispatch_get_main_queue(), ^{
+                                                                         [self handleGotNewUserPolicy:data error:error completionHandler:completionHandler];
+                                                                     });
+                                                                 }];
+    [test resume];
+	
+}
+- (void)handleGotNewUserPolicy:(NSData*)data error:(NSError*)error completionHandler:(void (^)(NSDictionary *policy))completionHandler {
+    NSDictionary	*JSON = [self jsonToDictionary:data errorAlerts:YES];
+    if (JSON) {
+		completionHandler(JSON);
+        return;
+    }
+	completionHandler(nil);
+}
+
+//////////////////////////////////////////////////////////////////////
+//Biggie, login!
+- (void)loginWithUser:(NSString*)user password:(NSString*)pass completionHandler:(void (^)(NSDictionary *data))completionHandler {
     loginUser = [user retain];
     loginPass = [pass retain];
 	
-	[self getSessionForApp:mainUserNest.userNestAppID then:^(NSData *data, NSError *error) {
+	[self getSessionForApp:userNestAppID completionHandler:^(NSData *data, NSError *error) {
 		//Can show UI things, so fire on the main thread...
 		dispatch_async(dispatch_get_main_queue(), ^{
-			[self handleLoginGotSession:data error:error];
+			[self handleLoginGotSession:data error:error completionHandler:completionHandler];
 		});
 	}];
 }
 
-- (void)handleLoginGotSession:(NSData*)data error:(NSError*)error {
-	if (data==nil && error==nil && mainUserNest.userNestSession!=nil) {
+- (void)handleLoginGotSession:(NSData*)data error:(NSError*)error completionHandler:(void (^)(NSDictionary *data))completionHandler {
+	if (data==nil && error==nil && userNestSession!=nil) {
 		//Already got a session ID, re-use it...
 	} else {
 		NSDictionary	*JSON = [self jsonToDictionary:data errorAlerts:YES];
 		if (!JSON) {
-			[mainUserNest transformToNormal:0.33];
+			completionHandler(nil);
 			return;
 		}
-		mainUserNest.userNestSession = JSON[@"id"];
+		userNestSession = [JSON[@"id"] retain];
 	}
 	
     //Second step, use the session and send to login
     NSURL                   *URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://secure.umsdb.net/api/v1/frontend/auth/with-password?appId=%@&sessionId=%@",
-                                                         mainUserNest.userNestAppID, mainUserNest.userNestSession]];
+                                                         userNestAppID, userNestSession]];
     NSMutableURLRequest     *request = [NSMutableURLRequest requestWithURL:URL];
     
     NSDictionary            *contentDic = @{@"email": loginUser, @"password": loginPass, @"tosResponse": @"YES"};
@@ -241,7 +227,7 @@
 		UIAlertView		*errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
 															  message:NSLocalizedString(@"Unable to package data to login", nil) delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[errorAlert show];
-        [mainUserNest transformToNormal:0.33];
+		completionHandler(nil);
 		return;
     }
 	
@@ -254,16 +240,15 @@
                                                                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                                          //Can show UI things, so fire on the main thread...
                                                                          dispatch_async(dispatch_get_main_queue(), ^{
-                                                                             [self handleLoginGotLoginReply:data error:error];
+                                                                             [self handleLoginGotLoginReply:data error:error completionHandler:completionHandler];
                                                                          });
                                                                      }];
     [task resume];
 }
-- (void)handleLoginGotLoginReply:(NSData*)data error:(NSError*)error {
-    NSDictionary	*JSON = [self jsonToDictionary:data errorAlerts:!userNestTestCase];
+- (void)handleLoginGotLoginReply:(NSData*)data error:(NSError*)error completionHandler:(void (^)(NSDictionary *data))completionHandler {
+    NSDictionary	*JSON = [self jsonToDictionary:data errorAlerts:self.showErrorMessages];
     if (!JSON) {
-        [mainUserNest transformToNormal:0.33];
-        if (userNestTestCase) [mainUserNest loginFail];
+		completionHandler(nil);
 		return;
     }
     NSLog(@"LoginReply:%@", JSON);
@@ -275,8 +260,7 @@
 		UIAlertView		*errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
 															  message:NSLocalizedString(@"Could not log in, account deleted", nil) delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[errorAlert show];
-        [mainUserNest transformToNormal:0.33];
-        if (userNestTestCase) [mainUserNest loginFail];
+		completionHandler(nil);
 		return;
     }
 	//Has been disabled?
@@ -284,41 +268,41 @@
 		UIAlertView		*errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
 															  message:NSLocalizedString(@"Could not log in, account disabled", nil) delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[errorAlert show];
-        [mainUserNest transformToNormal:0.33];
-        if (userNestTestCase) [mainUserNest loginFail];
+		completionHandler(nil);
 		return;
     }
 	
-	[mainUserNest loginSuccess:JSON];
+	completionHandler(JSON);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-- (void)createAccount:(NSDictionary*)acctData {
+//Create an account.  Must have all required fields in the acctData keyed by the JSON expected by the server.
+- (void)createAccount:(NSDictionary*)acctData completionHandler:(void (^)(NSDictionary *data))completionHandler {
 	newAccountData = [acctData retain];
 	
-	[self getSessionForApp:mainUserNestNewAccount.userNestAppID then:^(NSData *data, NSError *error) {
+	[self getSessionForApp:userNestAppID completionHandler:^(NSData *data, NSError *error) {
 		//Can show UI things, so fire on the main thread...
 		dispatch_async(dispatch_get_main_queue(), ^{
-			[self handleNewAccountGotSession:data error:error];
+			[self handleNewAccountGotSession:data error:error completionHandler:completionHandler];
 		});
 	}];
 }
 
-- (void)handleNewAccountGotSession:(NSData*)data error:(NSError*)error {
-	if (data==nil && error==nil && mainUserNestNewAccount.userNestSession!=nil) {
+- (void)handleNewAccountGotSession:(NSData*)data error:(NSError*)error completionHandler:(void (^)(NSDictionary *data))completionHandler {
+	if (data==nil && error==nil && userNestSession!=nil) {
 		//Already got a session ID, re-using it...
 	} else {
-		NSDictionary	*JSON = [self jsonToDictionary:data errorAlerts:!userNestTestCase];
+		NSDictionary	*JSON = [self jsonToDictionary:data errorAlerts:self.showErrorMessages];
 		if (!JSON) {
-			[mainUserNestNewAccount newAccountFailed];
+            completionHandler(nil);
 			return;
 		}
-		mainUserNestNewAccount.userNestSession = JSON[@"id"];
+		userNestSession = [JSON[@"id"] retain];
 	}
 	
 	NSURL                   *URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://secure.umsdb.net/api/v1/frontend/auth/new-user?appId=%@&sessionId=%@",
-                                                         mainUserNestNewAccount.userNestAppID, mainUserNestNewAccount.userNestSession]];
+                                                         userNestAppID, userNestSession]];
     NSMutableURLRequest     *request = [NSMutableURLRequest requestWithURL:URL];
     
     NSError                 *jsonError = nil;
@@ -340,50 +324,50 @@
                                                                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                                          //Can show UI things, so fire on the main thread...
                                                                          dispatch_async(dispatch_get_main_queue(), ^{
-                                                                             [self handleNewAccountReply:data error:error];
+                                                                             [self handleNewAccountReply:data error:error completionHandler:completionHandler];
                                                                          });
                                                                      }];
     [task resume];
 
 }
-- (void)handleNewAccountReply:(NSData*)data error:(NSError*)error {
-	NSDictionary	*JSON = [self jsonToDictionary:data errorAlerts:!userNestTestCase];
+- (void)handleNewAccountReply:(NSData*)data error:(NSError*)error completionHandler:(void (^)(NSDictionary *data))completionHandler {
+	NSDictionary	*JSON = [self jsonToDictionary:data errorAlerts:self.showErrorMessages];
 	if (!JSON) {
-		[mainUserNestNewAccount newAccountFailed];
+        completionHandler(nil);
 		return;
 	}
 	
 	//Got here, should be OK!
-	[mainUserNestNewAccount newAccountSuccess];
+    completionHandler(JSON);
 }
 
 /////////////////////////////////////////////////////////////////////////////
-
-- (void)resetPasswordWithEmail:(NSString*)email {
+//Easier one, ask it to send a password reset email
+- (void)resetPasswordWithEmail:(NSString*)email completionHandler:(void (^)(Boolean reset))completionHandler {
     resetEmail = [email retain];
     
-	[self getSessionForApp:mainUserNest.userNestAppID then:^(NSData *data, NSError *error) {
+	[self getSessionForApp:userNestAppID completionHandler:^(NSData *data, NSError *error) {
 		//Can show UI things, so fire on the main thread...
 		dispatch_async(dispatch_get_main_queue(), ^{
-			[self handlePasswordResetGotSession:data error:error];
+			[self handlePasswordResetGotSession:data error:error completionHandler:completionHandler];
 		});
 	}];
 }
 
-- (void)handlePasswordResetGotSession:(NSData*)data error:(NSError*)error {
-	if (data==nil && error==nil && mainUserNest.userNestSession!=nil) {
+- (void)handlePasswordResetGotSession:(NSData*)data error:(NSError*)error completionHandler:(void (^)(Boolean reset))completionHandler {
+	if (data==nil && error==nil && userNestSession!=nil) {
 		//Already got a session ID, re-using it...
 	} else {
-		NSDictionary	*JSON = [self jsonToDictionary:data errorAlerts:!userNestTestCase];
+		NSDictionary	*JSON = [self jsonToDictionary:data errorAlerts:self.showErrorMessages];
 		if (!JSON) {
-			[mainUserNest passwordResetFail];
+            completionHandler(NO);
 			return;
 		}
-		mainUserNest.userNestSession = JSON[@"id"];
+		userNestSession = [JSON[@"id"] retain];
 	}
 	
 	NSURL                   *URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://secure.umsdb.net/api/v1/frontend/auth/request-pwreset?appId=%@&sessionId=%@",
-                                                         mainUserNest.userNestAppID, mainUserNest.userNestSession]];
+                                                         userNestAppID, userNestSession]];
     NSMutableURLRequest     *request = [NSMutableURLRequest requestWithURL:URL];
     
     NSDictionary            *passwordResetData = @{@"email": resetEmail };
@@ -406,21 +390,21 @@
                                                                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                                          //Can show UI things, so fire on the main thread...
                                                                          dispatch_async(dispatch_get_main_queue(), ^{
-                                                                             [self handlePasswordResetReply:data error:error];
+                                                                             [self handlePasswordResetReply:data error:error completionHandler:completionHandler];
                                                                          });
                                                                      }];
     [task resume];
     
 }
-- (void)handlePasswordResetReply:(NSData*)data error:(NSError*)error {
-	NSDictionary	*JSON = [self jsonToDictionary:data errorAlerts:!userNestTestCase];
+- (void)handlePasswordResetReply:(NSData*)data error:(NSError*)error completionHandler:(void (^)(Boolean reset))completionHandler {
+	NSDictionary	*JSON = [self jsonToDictionary:data errorAlerts:self.showErrorMessages];
 	if (!JSON) {
-		[mainUserNest passwordResetFail];
+        completionHandler(NO);
 		return;
 	}
 	
 	//Got here, should be OK!
-	[mainUserNest passwordResetSuccess];
+	completionHandler(YES);
 }
 
 

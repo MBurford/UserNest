@@ -22,9 +22,11 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		4C16A88C18D37C9200529433 /* UserNestViewControllerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C16A88B18D37C9200529433 /* UserNestViewControllerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C16A88E18D37D7700529433 /* UserNest.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C16A88D18D37D7700529433 /* UserNest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4C254E2718B3C66500999DDF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C254E2618B3C66500999DDF /* Foundation.framework */; };
-		4C254E2C18B3C66500999DDF /* UserNest.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C254E2B18B3C66500999DDF /* UserNest.h */; };
-		4C254E2E18B3C66500999DDF /* UserNest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C254E2D18B3C66500999DDF /* UserNest.m */; };
+		4C254E2C18B3C66500999DDF /* UserNestViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C254E2B18B3C66500999DDF /* UserNestViewController.h */; };
+		4C254E2E18B3C66500999DDF /* UserNestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C254E2D18B3C66500999DDF /* UserNestViewController.m */; };
 		4C254E3518B3C66500999DDF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C254E3418B3C66500999DDF /* XCTest.framework */; };
 		4C254E3618B3C66500999DDF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C254E2618B3C66500999DDF /* Foundation.framework */; };
 		4C254E3818B3C66500999DDF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C254E3718B3C66500999DDF /* UIKit.framework */; };
@@ -32,17 +34,17 @@
 		4C254E4118B3C66500999DDF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4C254E3F18B3C66500999DDF /* InfoPlist.strings */; };
 		4C254E4318B3C66500999DDF /* UserNestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C254E4218B3C66500999DDF /* UserNestTests.m */; };
 		4C254E5218B3C76200999DDF /* BlurBehindTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C254E5118B3C76200999DDF /* BlurBehindTransition.m */; };
-		4C27CB7A18BD5653007F44C6 /* UserNestTOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C27CB7818BD5653007F44C6 /* UserNestTOS.h */; };
-		4C27CB7B18BD5653007F44C6 /* UserNestTOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C27CB7918BD5653007F44C6 /* UserNestTOS.m */; };
-		4C3FAEE118BFFD1A00F69062 /* UserNestNewAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C3FAEDE18BFFD1A00F69062 /* UserNestNewAccount.h */; };
-		4C3FAEE218BFFD1A00F69062 /* UserNestNewAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3FAEDF18BFFD1A00F69062 /* UserNestNewAccount.m */; };
+		4C27CB7A18BD5653007F44C6 /* UserNestTOSViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C27CB7818BD5653007F44C6 /* UserNestTOSViewController.h */; };
+		4C27CB7B18BD5653007F44C6 /* UserNestTOSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C27CB7918BD5653007F44C6 /* UserNestTOSViewController.m */; };
+		4C3FAEE118BFFD1A00F69062 /* UserNestNewAccountViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C3FAEDE18BFFD1A00F69062 /* UserNestNewAccountViewController.h */; };
+		4C3FAEE218BFFD1A00F69062 /* UserNestNewAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3FAEDF18BFFD1A00F69062 /* UserNestNewAccountViewController.m */; };
 		4C81413718CFCB9A00306FF3 /* UserNestBits.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C81413518CFCB9A00306FF3 /* UserNestBits.h */; };
 		4C81413818CFCB9A00306FF3 /* UserNestBits.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C81413618CFCB9A00306FF3 /* UserNestBits.m */; };
-		4CE2706618B3F8D400D0EE73 /* UserNest.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C254E2B18B3C66500999DDF /* UserNest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4CE2706618B3F8D400D0EE73 /* UserNestViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C254E2B18B3C66500999DDF /* UserNestViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4CE270BB18B400AC00D0EE73 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE270BA18B400AC00D0EE73 /* Accelerate.framework */; };
-		4CE9931B18BE5F820091240A /* UserNestNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9931918BE5F820091240A /* UserNestNetwork.h */; };
+		4CE9931B18BE5F820091240A /* UserNestNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9931918BE5F820091240A /* UserNestNetwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4CE9931C18BE5F820091240A /* UserNestNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9931A18BE5F820091240A /* UserNestNetwork.m */; };
-		4CE9931E18BE62050091240A /* UserNest_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9931D18BE62050091240A /* UserNest_private.h */; };
+		4CE9931E18BE62050091240A /* UserNestViewController_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9931D18BE62050091240A /* UserNestViewController_private.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,18 +71,20 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				4C254E2C18B3C66500999DDF /* UserNest.h in CopyFiles */,
+				4C254E2C18B3C66500999DDF /* UserNestViewController.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4C16A88B18D37C9200529433 /* UserNestViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNestViewControllerDelegate.h; sourceTree = "<group>"; };
+		4C16A88D18D37D7700529433 /* UserNest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNest.h; sourceTree = "<group>"; };
 		4C254E2318B3C66500999DDF /* libUserNest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUserNest.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C254E2618B3C66500999DDF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4C254E2A18B3C66500999DDF /* UserNest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UserNest-Prefix.pch"; sourceTree = "<group>"; };
-		4C254E2B18B3C66500999DDF /* UserNest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserNest.h; sourceTree = "<group>"; };
-		4C254E2D18B3C66500999DDF /* UserNest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserNest.m; sourceTree = "<group>"; };
+		4C254E2B18B3C66500999DDF /* UserNestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserNestViewController.h; sourceTree = "<group>"; };
+		4C254E2D18B3C66500999DDF /* UserNestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserNestViewController.m; sourceTree = "<group>"; };
 		4C254E3318B3C66500999DDF /* UserNestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UserNestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C254E3418B3C66500999DDF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		4C254E3718B3C66500999DDF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -89,18 +93,18 @@
 		4C254E4218B3C66500999DDF /* UserNestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserNestTests.m; sourceTree = "<group>"; };
 		4C254E5018B3C76200999DDF /* BlurBehindTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlurBehindTransition.h; sourceTree = "<group>"; };
 		4C254E5118B3C76200999DDF /* BlurBehindTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlurBehindTransition.m; sourceTree = "<group>"; };
-		4C27CB7818BD5653007F44C6 /* UserNestTOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNestTOS.h; sourceTree = "<group>"; };
-		4C27CB7918BD5653007F44C6 /* UserNestTOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNestTOS.m; sourceTree = "<group>"; };
-		4C3FAEDE18BFFD1A00F69062 /* UserNestNewAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNestNewAccount.h; sourceTree = "<group>"; };
-		4C3FAEDF18BFFD1A00F69062 /* UserNestNewAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNestNewAccount.m; sourceTree = "<group>"; };
-		4C3FAEE018BFFD1A00F69062 /* UserNestNewAccount.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserNestNewAccount.xib; sourceTree = "<group>"; };
+		4C27CB7818BD5653007F44C6 /* UserNestTOSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNestTOSViewController.h; sourceTree = "<group>"; };
+		4C27CB7918BD5653007F44C6 /* UserNestTOSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNestTOSViewController.m; sourceTree = "<group>"; };
+		4C3FAEDE18BFFD1A00F69062 /* UserNestNewAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNestNewAccountViewController.h; sourceTree = "<group>"; };
+		4C3FAEDF18BFFD1A00F69062 /* UserNestNewAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNestNewAccountViewController.m; sourceTree = "<group>"; };
+		4C3FAEE018BFFD1A00F69062 /* UserNestNewAccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserNestNewAccountViewController.xib; sourceTree = "<group>"; };
 		4C81413518CFCB9A00306FF3 /* UserNestBits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNestBits.h; sourceTree = "<group>"; };
 		4C81413618CFCB9A00306FF3 /* UserNestBits.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNestBits.m; sourceTree = "<group>"; };
 		4CE270B718B3FF2100D0EE73 /* UserNestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserNestViewController.xib; sourceTree = "<group>"; };
 		4CE270BA18B400AC00D0EE73 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		4CE9931918BE5F820091240A /* UserNestNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNestNetwork.h; sourceTree = "<group>"; };
 		4CE9931A18BE5F820091240A /* UserNestNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNestNetwork.m; sourceTree = "<group>"; };
-		4CE9931D18BE62050091240A /* UserNest_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNest_private.h; sourceTree = "<group>"; };
+		4CE9931D18BE62050091240A /* UserNestViewController_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNestViewController_private.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,16 +165,18 @@
 			isa = PBXGroup;
 			children = (
 				4C254E4C18B3C6FD00999DDF /* Bits */,
-				4C254E2B18B3C66500999DDF /* UserNest.h */,
-				4CE9931D18BE62050091240A /* UserNest_private.h */,
-				4C254E2D18B3C66500999DDF /* UserNest.m */,
+				4C16A88D18D37D7700529433 /* UserNest.h */,
+				4C254E2B18B3C66500999DDF /* UserNestViewController.h */,
+				4C16A88B18D37C9200529433 /* UserNestViewControllerDelegate.h */,
+				4CE9931D18BE62050091240A /* UserNestViewController_private.h */,
+				4C254E2D18B3C66500999DDF /* UserNestViewController.m */,
 				4CE9931918BE5F820091240A /* UserNestNetwork.h */,
 				4CE9931A18BE5F820091240A /* UserNestNetwork.m */,
-				4C3FAEDE18BFFD1A00F69062 /* UserNestNewAccount.h */,
-				4C3FAEDF18BFFD1A00F69062 /* UserNestNewAccount.m */,
-				4C3FAEE018BFFD1A00F69062 /* UserNestNewAccount.xib */,
-				4C27CB7818BD5653007F44C6 /* UserNestTOS.h */,
-				4C27CB7918BD5653007F44C6 /* UserNestTOS.m */,
+				4C3FAEDE18BFFD1A00F69062 /* UserNestNewAccountViewController.h */,
+				4C3FAEDF18BFFD1A00F69062 /* UserNestNewAccountViewController.m */,
+				4C3FAEE018BFFD1A00F69062 /* UserNestNewAccountViewController.xib */,
+				4C27CB7818BD5653007F44C6 /* UserNestTOSViewController.h */,
+				4C27CB7918BD5653007F44C6 /* UserNestTOSViewController.m */,
 				4C254E2918B3C66500999DDF /* Supporting Files */,
 			);
 			path = UserNest;
@@ -221,11 +227,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C27CB7A18BD5653007F44C6 /* UserNestTOS.h in Headers */,
-				4C3FAEE118BFFD1A00F69062 /* UserNestNewAccount.h in Headers */,
-				4CE2706618B3F8D400D0EE73 /* UserNest.h in Headers */,
+				4C27CB7A18BD5653007F44C6 /* UserNestTOSViewController.h in Headers */,
+				4C16A88E18D37D7700529433 /* UserNest.h in Headers */,
+				4C3FAEE118BFFD1A00F69062 /* UserNestNewAccountViewController.h in Headers */,
+				4CE2706618B3F8D400D0EE73 /* UserNestViewController.h in Headers */,
 				4CE9931B18BE5F820091240A /* UserNestNetwork.h in Headers */,
-				4CE9931E18BE62050091240A /* UserNest_private.h in Headers */,
+				4CE9931E18BE62050091240A /* UserNestViewController_private.h in Headers */,
+				4C16A88C18D37C9200529433 /* UserNestViewControllerDelegate.h in Headers */,
 				4C81413718CFCB9A00306FF3 /* UserNestBits.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,9 +352,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C81413818CFCB9A00306FF3 /* UserNestBits.m in Sources */,
-				4C254E2E18B3C66500999DDF /* UserNest.m in Sources */,
-				4C3FAEE218BFFD1A00F69062 /* UserNestNewAccount.m in Sources */,
-				4C27CB7B18BD5653007F44C6 /* UserNestTOS.m in Sources */,
+				4C254E2E18B3C66500999DDF /* UserNestViewController.m in Sources */,
+				4C3FAEE218BFFD1A00F69062 /* UserNestNewAccountViewController.m in Sources */,
+				4C27CB7B18BD5653007F44C6 /* UserNestTOSViewController.m in Sources */,
 				4C254E5218B3C76200999DDF /* BlurBehindTransition.m in Sources */,
 				4CE9931C18BE5F820091240A /* UserNestNetwork.m in Sources */,
 			);

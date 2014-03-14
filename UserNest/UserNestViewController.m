@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 UserNest. All rights reserved.
 //
 
-#import "UserNest.h"
-#import "UserNest_private.h"
-#import "BlurBehindTransition.h"
-#import "UserNestTOS.h"
+#import "UserNestViewController.h"
+#import "UserNestViewController_private.h"
 #import "UserNestNetwork.h"
-#import "UserNestNewAccount.h"
+#import "BlurBehindTransition.h"
+#import "UserNestTOSViewController.h"
+#import "UserNestNewAccountViewController.h"
 #import "UserNestBits.h"
 
 typedef NS_ENUM(NSInteger, UNViewType) {
@@ -21,27 +21,20 @@ typedef NS_ENUM(NSInteger, UNViewType) {
     UNViewNewAccount,
 };
 
-Boolean userNestTestCase=NO;
 
 /////////////////////////////////////////////////////////////////////////////
-@interface UserNest (Private) <UITextFieldDelegate, UserNestTOSDelegate>
+@interface UserNestViewController (Private) <UITextFieldDelegate, UserNestTOSDelegate>
 
 @end
 
 
 /////////////////////////////////////////////////////////////////////////////
-@implementation UserNest {
+@implementation UserNestViewController {
 	//Private local vars...
     UserNestNetwork *unNetwork;
     NSDictionary    *accountPolicy;
 	
 	void (^completionHandlerBlock)(Boolean loggedIn, NSDictionary *loginData);
-    
-    //Data
-	//...
-	//NSString        *userNestAppID;
-	//NSString        *userNestApiKey;
-    //NSString        *userNestSession;
     
     //UI Elements
 	UIImageView		*background;
@@ -85,7 +78,7 @@ Boolean userNestTestCase=NO;
 	}
 	return self;
 }
-- (id)initWithAppID:(NSString*)appID delegate:(id<UserNestDelegate>)unDelegate {
+- (id)initWithAppID:(NSString*)appID delegate:(id<UserNestViewControllerDelegate>)unDelegate {
 	//Check for AppID blank
 	if (appID.length==0) {
 		UIAlertView		*errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"No App ID", nil)
@@ -109,46 +102,6 @@ Boolean userNestTestCase=NO;
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[super dealloc];
-}
-//TEST CASES---------------------------------------------------------------
-- (void)setUserNestTestCase {
-    userNestTestCase = YES;
-}
-- (void)loginWithUser:(NSString*)user password:(NSString*)pass {
-    if (!unNetwork) {
-        unNetwork = [[UserNestNetwork alloc] initWithUserNestMain:self];
-    }
-    [unNetwork loginWithUser:user password:pass];
-}
-- (void)resetPasswordWithEmail:(NSString*)email {
-    if (!unNetwork) {
-        unNetwork = [[UserNestNetwork alloc] initWithUserNestMain:self];
-    }
-    [unNetwork resetPasswordWithEmail:email];
-}
-- (void)getAccountPolicy {
-    if (!unNetwork) {
-        unNetwork = [[UserNestNetwork alloc] initWithUserNestMain:self];
-    }
-    [unNetwork getAccountPolicy];
-}
-- (void)createAccount:(NSDictionary*)acctData {
-    UserNestNewAccount	*newAccount = [[[UserNestNewAccount alloc] initWithNibName:@"UserNestNewAccount" bundle:nil] autorelease];
-    newAccount.userNestAppID = self.userNestAppID;
-    newAccount.delegate = self;
-    [newAccount createAccount:acctData];
-}
-- (void)newAccountSuccess {
-    //Bubble up for test cases...
-    if ([self.delegate respondsToSelector:@selector(newAccountSuccess)]) {
-        [self.delegate performSelector:@selector(newAccountSuccess)];
-    }
-}
-- (void)newAccountFailed {
-    //Bubble up for test cases...
-    if ([self.delegate respondsToSelector:@selector(newAccountFailed)]) {
-        [self.delegate performSelector:@selector(newAccountFailed)];
-    }
 }
 
 //SETUP VIEWS---------------------------------------------------------------
@@ -350,9 +303,11 @@ Boolean userNestTestCase=NO;
         [self transformToNormal:0.0];
     } else {
         if (!unNetwork) {
-            unNetwork = [[UserNestNetwork alloc] initWithUserNestMain:self];
+            unNetwork = [[UserNestNetwork alloc] initWithUserNestAppID:self.userNestAppID session:self.userNestSession];
         }
-        [unNetwork getAccountPolicy];
+        [unNetwork getAccountPolicyCompletionHandler:^(NSDictionary *policy) {
+            [self gotAccountPolicy:policy];
+        }];
     }
 }
 - (void)viewDidDisappear:(BOOL)animated {
@@ -382,7 +337,13 @@ Boolean userNestTestCase=NO;
 	}
 	
 	//Start the process
-    [unNetwork resetPasswordWithEmail:username.text];
+    [unNetwork resetPasswordWithEmail:username.text completionHandler:^(Boolean reset) {
+        if (reset) {
+            [self passwordResetSuccess];
+        } else {
+            [self passwordResetFail];
+        }
+    }];
 
 	[self transformToNormal:0.33];
 }
@@ -402,7 +363,7 @@ Boolean userNestTestCase=NO;
         return;
     }
     
-	UserNestNewAccount	*newAccount = [[[UserNestNewAccount alloc] initWithNibName:@"UserNestNewAccount" bundle:nil] autorelease];
+	UserNestNewAccountViewController	*newAccount = [[[UserNestNewAccountViewController alloc] initWithNibName:@"UserNestNewAccountViewController" bundle:nil] autorelease];
     newAccount.userNestAppID = self.userNestAppID;
 	
 	/*
@@ -489,7 +450,7 @@ Boolean userNestTestCase=NO;
 	[self presentViewController:nav animated:YES completion:nil];
 }
 - (void)clickPrivacy:(id)sender {
-	UserNestTOS     *showTOS = [[UserNestTOS alloc] init];
+	UserNestTOSViewController     *showTOS = [[UserNestTOSViewController alloc] init];
 	showTOS.userNestAppID = self.userNestAppID;
 	showTOS.showAccept = NO;
 	showTOS.showCancel = YES;
@@ -518,30 +479,47 @@ Boolean userNestTestCase=NO;
 	[password resignFirstResponder];
     
     if (!unNetwork) {
-        unNetwork = [[UserNestNetwork alloc] initWithUserNestMain:self];
+        unNetwork = [[UserNestNetwork alloc] initWithUserNestAppID:self.userNestAppID session:self.userNestSession];
     }
-    [unNetwork loginWithUser:username.text password:password.text];
+    [unNetwork loginWithUser:username.text password:password.text completionHandler:^(NSDictionary *data) {
+        if (data) {
+            [self loginSuccess:data];
+        } else {
+            //Does NOT call fail. Shows errors about what was wrong in unNetwork; they can fix and try again
+            //[self loginFail];
+            [self transformToNormal:0.33];
+        }
+    }];
 }
 - (void)logout {
     if (!unNetwork) {
-        unNetwork = [[UserNestNetwork alloc] initWithUserNestMain:self];
+        unNetwork = [[UserNestNetwork alloc] initWithUserNestAppID:self.userNestAppID session:self.userNestSession];
     }
  
-    [unNetwork logoutThen:^(Boolean invalidated) {
+    [unNetwork logoutCompletionHandler:^(Boolean invalidated) {
         [self loggedOut:invalidated];
     }];
 }
 - (void)logoutCompletionHandler:(void (^)(Boolean invalidatedSession))completionHandler {
     if (!unNetwork) {
-        unNetwork = [[UserNestNetwork alloc] initWithUserNestMain:self];
+        unNetwork = [[UserNestNetwork alloc] initWithUserNestAppID:self.userNestAppID session:self.userNestSession];
     }
-    [unNetwork logoutThen:completionHandler];
+	[unNetwork logoutCompletionHandler:^(Boolean invalidated) {
+        [self loggedOut:invalidated];
+		completionHandler(invalidated);
+    }];
 }
 
 
 //RESPONSES---------------------------------------------------------------
 
 - (void)loginSuccess:(NSDictionary*)loginData {
+    if (self.userNestSession.length==0) {
+        NSDictionary *sessionData = loginData[@"session"];
+        if (sessionData) {
+            self.userNestSession = sessionData[@"id"];
+        }
+    }
 	[UserNestKeychain setString:self.userNestSession forKey:@"sessionID"];
 	[UserNestKeychain setString:username.text forKey:@"lastLoginName"];
 	
@@ -567,32 +545,15 @@ Boolean userNestTestCase=NO;
     accountPolicy = [policy retain];
     
     [self transformToNormal:0.33];
-    
-    if (userNestTestCase) {
-        if ([self.delegate respondsToSelector:@selector(userNestGotAccountPolicy:)]) {
-            [self.delegate userNestGotAccountPolicy:policy];
-        }
-    }
 }
 
 - (void)passwordResetSuccess {
-    if (userNestTestCase) {
-        if ([self.delegate respondsToSelector:@selector(passwordResetSuccess)]) {
-            [self.delegate performSelector:@selector(passwordResetSuccess) withObject:nil];
-        }
-    } else {
-        UIAlertView		*errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Success", nil)
-                                                              message:NSLocalizedString(@"Check your email for password reset instructions", nil) delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [errorAlert show];
-    }
+    UIAlertView		*errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Success", nil)
+                                                          message:NSLocalizedString(@"Check your email for password reset instructions", nil) delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [errorAlert show];
 }
 - (void)passwordResetFail {
     //Failing shows messages as part of that
-    if (userNestTestCase) {
-        if ([self.delegate respondsToSelector:@selector(passwordResetFail)]) {
-            [self.delegate performSelector:@selector(passwordResetFail) withObject:nil];
-        }
-    }
 }
 - (void)loggedOut:(Boolean)invalidated {
     [UserNestKeychain setString:@"" forKey:@"sessionID"];
@@ -880,37 +841,49 @@ Boolean userNestTestCase=NO;
 
 - (void)checkIsLoggedIn {
 	//So could restore a sessionID and see if it is still logged in
-	if (!self.userNestSession) {
+	if (self.userNestSession.length==0) {
 		self.userNestSession = [UserNestKeychain stringForKey:@"sessionID"];
 	}
-	if (!self.userNestSession) {
+	if (self.userNestSession.length==0) {
 		if ([self.delegate respondsToSelector:@selector(userNestIsLoggedIn:)]) {
 			[self.delegate userNestIsLoggedIn:NO];
 		}
 		return;
 	}
 	if (!unNetwork) {
-		unNetwork = [[UserNestNetwork alloc] initWithUserNestMain:self];
+		unNetwork = [[UserNestNetwork alloc] initWithUserNestAppID:self.userNestAppID session:self.userNestSession];
 	}
-	[unNetwork checkLoggedInThen:^(Boolean loggedIn) {
+	[unNetwork checkLoggedInCompletionHandler:^(Boolean loggedIn) {
 		if ([self.delegate respondsToSelector:@selector(userNestIsLoggedIn:)]) {
 			[self.delegate userNestIsLoggedIn:loggedIn];
+		}
+		//NOT logged in, clear session things
+		if (!loggedIn) {
+			[UserNestKeychain setString:@"" forKey:@"sessionID"];
+			self.userNestSession = nil;
 		}
 	}];
 }
 - (void)checkIsLoggedInCompletionHandler:(void (^)(Boolean loggedIn))loggedInBlock {
 	//So could restore a sessionID and see if it is still logged in
-	if (!self.userNestSession) {
+	if (self.userNestSession.length==0) {
 		self.userNestSession = [UserNestKeychain stringForKey:@"sessionID"];
 	}
-	if (!self.userNestSession) {
+	if (self.userNestSession.length==0) {
 		loggedInBlock(NO);
 		return;
 	}
 	if (!unNetwork) {
-		unNetwork = [[UserNestNetwork alloc] initWithUserNestMain:self];
+		unNetwork = [[UserNestNetwork alloc] initWithUserNestAppID:self.userNestAppID session:self.userNestSession];
 	}
-	[unNetwork checkLoggedInThen:loggedInBlock];
+	[unNetwork checkLoggedInCompletionHandler:^(Boolean loggedIn) {
+		//NOT logged in, clear session things
+		if (!loggedIn) {
+			[UserNestKeychain setString:@"" forKey:@"sessionID"];
+			self.userNestSession = nil;
+		}
+		loggedInBlock(loggedIn);
+	}];
 }
 
 

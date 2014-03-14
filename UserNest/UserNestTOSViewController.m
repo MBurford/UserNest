@@ -6,14 +6,11 @@
 //  Copyright (c) 2014 Headlight Software, Inc. All rights reserved.
 //
 
-#import "UserNestTOS.h"
+#import "UserNestTOSViewController.h"
 #import "UserNestBits.h"
 
-@interface UserNestTOS ()
 
-@end
-
-@implementation UserNestTOS
+@implementation UserNestTOSViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -56,7 +53,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    //self.navigationItem.title = NSLocalizedString(@"Terms of Service", nil);
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+        //Nicer rounded corners on the overlay
+        [self.view superview].layer.cornerRadius = 10.0f;
+        [self.view superview].layer.masksToBounds = YES;
+        
+        [self.navigationController.view superview].layer.cornerRadius = 10.0f;
+        [self.navigationController.view superview].layer.masksToBounds = YES;
+    }
 	
 	UISegmentedControl	*termsAndPrivacy = [[UISegmentedControl alloc] initWithItems:@[NSLocalizedString(@"Terms", nil), NSLocalizedString(@"Privacy", nil)]];
 	termsAndPrivacy.selectedSegmentIndex = 0;

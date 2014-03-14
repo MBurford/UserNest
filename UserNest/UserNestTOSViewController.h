@@ -19,7 +19,7 @@
 @end
 
 
-@interface UserNestTOS : UIViewController <UIWebViewDelegate> {
+@interface UserNestTOSViewController : UIViewController <UIWebViewDelegate> {
 	UIWebView	*tosWebView;
 }
 
