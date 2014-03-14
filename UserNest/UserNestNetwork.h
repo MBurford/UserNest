@@ -4,7 +4,7 @@
 
   Copyright (c) 2014 UserNest. All rights reserved.
 
-  Roll your own UI?  Here are the networking functions to let you do that.
+  Want to roll your own UI?  Here are the networking functions to let you do that.
  */
 
 
@@ -18,7 +18,8 @@
 - (id)initWithUserNestAppID:(NSString*)appID session:(NSString*)existingSession;
 
 /*
- You will need to have passed in a session in the init above, otherwise check will immediately call the completionHander(NO).
+ You will need to have passed in a session in the init above, otherwise the 
+ check will immediately call the completionHander(NO).
  */
 - (void)checkLoggedInCompletionHandler:(void (^)(Boolean loggedIn))completionHandler;
 
@@ -34,8 +35,8 @@
 - (void)resetPasswordWithEmail:(NSString*)user completionHandler:(void (^)(Boolean reset))completionHandler;
 
 /*
- Account policy is mostly for creating new accounts, but you can also check it to see if the user should login
- with an email or a username.
+ Account policy is mostly for creating new accounts, but you can also check it to see 
+ if the user should login with an email or a username.
  nil for completionHandler policy means getting the policy failed.
  */
 - (void)getAccountPolicyCompletionHandler:(void (^)(NSDictionary *policy))completionHandler;
@@ -53,7 +54,7 @@
 
 /*
  You should always delete the local session, even if invalidating the server's session failed.
- (Such as because of being in Airplane mode when Logout called.)
+ (Such as because of being in Airplane mode when Logout is called.)
  */
 - (void)logoutCompletionHandler:(void (^)(Boolean invalidatedServer))completionHandler;
 
