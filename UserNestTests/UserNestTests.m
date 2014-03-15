@@ -2,8 +2,7 @@
 //  UserNestTests.m
 //  UserNestTests
 //
-//  Created by Michael Burford on 2/18/14.
-//  Copyright (c) 2014 Headlight Software, Inc. All rights reserved.
+//  Copyright (c) 2014 UserNest. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
