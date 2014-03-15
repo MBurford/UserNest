@@ -37,7 +37,7 @@
 
 - (void)addTextItem:(UNAccountItem*)item;
 
-- (void)newAccountSuccess;
+- (void)newAccountSuccess:(NSDictionary*)data;
 - (void)newAccountFailed;
 
 @end

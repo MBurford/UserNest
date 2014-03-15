@@ -22,6 +22,7 @@
 - (void)dealloc {
 	[tosWebView removeFromSuperview];
 	[tosWebView release];
+	[super dealloc];
 }
 //https://secure.umsdb.net/s/usernest.com/signup?appId=3cf95443
 
