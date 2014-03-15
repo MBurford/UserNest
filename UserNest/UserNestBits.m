@@ -107,8 +107,6 @@
 @end
 
 /////////////////////////////////////////////////////////////////////////////////
-//CODE FROM APPLE, for blurring...
-//Plus a few other UIImage things too
 @implementation UIImage (UserNest)
 
 + (UIImage*)userNestLeftButtonImage:(Boolean)selected {
@@ -164,7 +162,7 @@
 	return image;
 }
 
-
+//CODE FROM APPLE, for blurring...
 - (UIImage *)userNestApplyGrayEffect {
     UIColor *tintColor = [UIColor colorWithWhite:0.15 alpha:0.75];
     return [self userNestApplyBlurWithRadius:6 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];

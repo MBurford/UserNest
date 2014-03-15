@@ -12,6 +12,7 @@
 #import "UserNestNewAccountViewController.h"
 #import "UserNestBits.h"
 
+/////////////////////////////////////////////////////////////////////////////
 typedef NS_ENUM(NSInteger, UNViewType) {
     UNViewNormal,
     UNViewLoggingIn,
@@ -19,6 +20,8 @@ typedef NS_ENUM(NSInteger, UNViewType) {
     UNViewNewAccount,
 };
 
+#define UN_WIDTH 290
+#define UN_HEIGHT 225
 
 /////////////////////////////////////////////////////////////////////////////
 @interface UserNestViewController (Private) <UITextFieldDelegate, UserNestTOSDelegate>
@@ -103,9 +106,6 @@ typedef NS_ENUM(NSInteger, UNViewType) {
 }
 
 //SETUP VIEWS---------------------------------------------------------------
-
-#define UN_WIDTH 290
-#define UN_HEIGHT 225
 
 - (void)loadView {
 	NSLog(@"userNest:loadView");
@@ -279,11 +279,7 @@ typedef NS_ENUM(NSInteger, UNViewType) {
 	[background addSubview:workingSpinner];
 	
 	
-	//DEBUG...
-	//username.text = @"mjburford+a@gmail.com";
-	//password.text = @"Reall12";
-	
-	
+	//Need to know about keyboard changes, so the size/position can move to fit better on various devices
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:username];
@@ -387,6 +383,9 @@ typedef NS_ENUM(NSInteger, UNViewType) {
      "requireCaptcha":false}
      */
     
+	//This would need to be update if new fields are added (like Age)
+	//If there get to be many more, could be a plist or something to convert "lastname" to human friendly "Last Name"
+	//Only a few, so does them in code...
     NSDictionary *includeFields = accountPolicy[@"includeFields"];
 	if ([includeFields[@"username"] isEqualToString:@"Required"] || [includeFields[@"username"] isEqualToString:@"Optional"]) {
         //Full text, in case translations would be different somehow...
@@ -442,6 +441,8 @@ typedef NS_ENUM(NSInteger, UNViewType) {
     } else {
         [newAccount addTextItem:[UNAccountItem showTerms:NSLocalizedString(@"View Terms of Service", nil)]];
     }
+	
+	//! "requireCaptcha" may not be true.  Not sure how to handle captchas from within the app...
     
 	UINavigationController	*nav = [[[UINavigationController alloc] initWithRootViewController:newAccount] autorelease];
 	nav.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -562,7 +563,7 @@ typedef NS_ENUM(NSInteger, UNViewType) {
 }
 
 
-//TRANSFORMS---------------------------------------------------------------
+//TRANSFORMS, reshapes the UI so things fit nicely---------------------------------------------------------------
 - (void)changeTitle:(NSString*)newTitle duration:(float)duration {
 	if ([newTitle isEqualToString:titleMessage.text]) {
 		return;

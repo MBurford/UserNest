@@ -15,7 +15,7 @@
     [self presentViewController:userNest animated:YES completion:nil];
  
  More advanced but even better, checking if they are already logged in:
-    UserNestViewController	*userNest = [[UserNestViewController alloc] initWithAppID:@"674062da" completionHandler:^(Boolean loggedIn, NSDictionary *loginData) {
+    UserNestViewController	*userNest = [[UserNestViewController alloc] initWithAppID:@"YOUR_APP_ID" completionHandler:^(Boolean loggedIn, NSDictionary *loginData) {
         if (loggedIn) {
             [[[UIAlertView alloc] initWithTitle:@"Logged In!" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         } else {
