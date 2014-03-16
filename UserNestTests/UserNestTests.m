@@ -61,7 +61,7 @@
 			//Create a NEW object, and make sure it can detect they're logged in.
 			UserNestNetwork	*userNestNetwork2 = [[UserNestNetwork alloc] initWithUserNestAppID:@"674062da" session:sessonID];
 			userNestNetwork2.showErrorMessages = NO;
-			[userNestNetwork2 checkLoggedInCompletionHandler:^(Boolean loggedIn) {
+			[userNestNetwork2 checkIsLoggedInCompletionHandler:^(Boolean loggedIn) {
 				if (loggedIn) {
 					XCTAssertTrue(loggedIn, @"Success:  Logged Persisted");
 				} else {
@@ -144,7 +144,7 @@
 - (void)testRejectsInvalidSession {
 	UserNestNetwork	*userNestNetwork = [[UserNestNetwork alloc] initWithUserNestAppID:@"674062da" session:@"InvalidSessionID"];
     userNestNetwork.showErrorMessages = NO;
-    [userNestNetwork checkLoggedInCompletionHandler:^(Boolean loggedIn) {
+    [userNestNetwork checkIsLoggedInCompletionHandler:^(Boolean loggedIn) {
         if (loggedIn) {
 			XCTFail(@"Failed:  Allowed Invalid Session");
         } else {

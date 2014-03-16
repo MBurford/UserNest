@@ -21,7 +21,7 @@
  You will need to have passed in a session in the init above, otherwise the 
  check will immediately call the completionHander(NO).
  */
-- (void)checkLoggedInCompletionHandler:(void (^)(Boolean loggedIn))completionHandler;
+- (void)checkIsLoggedInCompletionHandler:(void (^)(Boolean loggedIn))completionHandler;
 
 /*
  User is either the email address, or username, depending on your UserNest login policies.  Email is the default.

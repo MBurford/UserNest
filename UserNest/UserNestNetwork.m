@@ -113,7 +113,7 @@
 
 /////////////////////////////////////////////////////////////////////////
 //See if the current userNestSession is valid & logged in.
-- (void)checkLoggedInCompletionHandler:(void (^)(Boolean loggedIn))completionHandler {
+- (void)checkIsLoggedInCompletionHandler:(void (^)(Boolean loggedIn))completionHandler {
 	NSURL                   *URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://secure.umsdb.net/api/v1/frontend/auth/session/%@?appId=%@",
 														 userNestSession, userNestAppID]];
 

@@ -852,7 +852,7 @@ typedef NS_ENUM(NSInteger, UNViewType) {
 	if (!unNetwork) {
 		unNetwork = [[UserNestNetwork alloc] initWithUserNestAppID:self.userNestAppID session:self.userNestSession];
 	}
-	[unNetwork checkLoggedInCompletionHandler:^(Boolean loggedIn) {
+	[unNetwork checkIsLoggedInCompletionHandler:^(Boolean loggedIn) {
 		if ([self.delegate respondsToSelector:@selector(userNestIsLoggedIn:)]) {
 			[self.delegate userNestIsLoggedIn:loggedIn];
 		}
@@ -875,7 +875,7 @@ typedef NS_ENUM(NSInteger, UNViewType) {
 	if (!unNetwork) {
 		unNetwork = [[UserNestNetwork alloc] initWithUserNestAppID:self.userNestAppID session:self.userNestSession];
 	}
-	[unNetwork checkLoggedInCompletionHandler:^(Boolean loggedIn) {
+	[unNetwork checkIsLoggedInCompletionHandler:^(Boolean loggedIn) {
 		//NOT logged in, clear session things
 		if (!loggedIn) {
 			[UserNestKeychain setString:@"" forKey:@"sessionID"];
