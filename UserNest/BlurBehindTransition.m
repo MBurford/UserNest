@@ -73,12 +73,13 @@ static NSInteger const BlurViewTag = 0x426c7572; //"Blur"
             }
             self.blurBG.alpha = 0.0;
         } else {
+			//Overshoots Slightly when coming in!  A more playful effect :)
+			//Reverse wouldn't really have to do the 2 animations, here and the 2nd in the completion hander...
             toViewController.view.frame = CGRectMake(0, -5, screenRect.size.width, screenRect.size.height);
             self.blurBG.frame = CGRectMake(0, 5, toViewController.view.frame.size.width, toViewController.view.frame.size.height);
             self.blurBG.alpha = 1.0;
         }
     } completion:^(BOOL finished) {
-        
         [UIView animateKeyframesWithDuration:BlurBehindAnimatedTransitionDuration*0.20 delay:0 options:0 animations:^{
             if (self.reverse) {
                 if (self.direction==BBDirectionUp) {
@@ -101,12 +102,6 @@ static NSInteger const BlurViewTag = 0x426c7572; //"Blur"
             }
             [transitionContext completeTransition:finished];
         }];
-
- /*       if (self.reverse && finished) {
-            [self.blurBG removeFromSuperview];
-            self.blurBG = nil;
-        }
-        [transitionContext completeTransition:finished];*/
     }];
 }
 
