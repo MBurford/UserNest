@@ -131,6 +131,9 @@
 		//Read from userDefaults, in case the 2 tests are run in different sessions.
 		newAccountEmail = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastNewAccountEmail"];
 	}
+	if (newAccountEmail.length==0) {
+		XCTFail(@"RUN AGAIN :) testCreateNewAccount test must have been done once before this one can pass.");
+	}
 	UserNestNetwork	*userNestNetwork = [[UserNestNetwork alloc] initWithUserNestAppID:@"674062da" session:nil];
     userNestNetwork.showErrorMessages = NO;
     [userNestNetwork loginWithUser:newAccountEmail password:@"Test12321" completionHandler:^(NSDictionary *data) {
