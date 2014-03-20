@@ -82,16 +82,41 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
         allSections = [[NSMutableArray array] retain];
     }
     return self;
 }
+- (id)init {
+    self = [super init];
+    if (self) {
+        allSections = [[NSMutableArray array] retain];
+    }
+    return self;
+}
+
 - (void)dealloc {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
+
+- (void)loadView {
+	if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
+		self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
+	} else {
+		CGRect    rc = [UIScreen mainScreen].applicationFrame;
+		self.view = [[UIView alloc] initWithFrame:CGRectMake(rc.origin.y, rc.origin.x, rc.size.height, rc.size.width)];
+	}
+	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+	self.view.backgroundColor = [UIColor whiteColor];
+	
+	self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+	self.tableView.delegate = self;
+	self.tableView.dataSource = self;
+	self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+	[self.view addSubview:self.tableView];
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];

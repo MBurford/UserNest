@@ -356,8 +356,8 @@ typedef NS_ENUM(NSInteger, UNViewType) {
         [self transformToNormal:0.33];
         return;
     }
-    
-	UserNestNewAccountViewController	*newAccount = [[[UserNestNewAccountViewController alloc] initWithNibName:@"UserNestNewAccountViewController" bundle:nil] autorelease];
+
+	UserNestNewAccountViewController	*newAccount = [[[UserNestNewAccountViewController alloc] init] autorelease];
     newAccount.userNestAppID = self.userNestAppID;
 	
 	/*
